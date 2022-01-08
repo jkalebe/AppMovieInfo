@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import br.com.example.appmovieinfo.model.Movie
 import br.com.example.appmovieinfo.model.MovieHttp
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
@@ -21,10 +20,15 @@ class MovieListViewModel: ViewModel(){
     fun loadMovies(){
         if(_state.value != null) return
 
+        search("Spider Man")
+
+    }
+
+    fun search(query: String) {
         viewModelScope.launch {
             _state.value = State.Loading
             val result = withContext(Dispatchers.IO){
-                MovieHttp.searchMovie("Spider man")
+                MovieHttp.searchMovie(query)
             }
             if (result?.Search == null){
                 _state.value = State.Error(Exception("Error loading movies"), false)
@@ -33,6 +37,7 @@ class MovieListViewModel: ViewModel(){
             }
         }
     }
+
     sealed class State{
         object Loading: State()
         data class Loaded(val items: List<Movie>): State()

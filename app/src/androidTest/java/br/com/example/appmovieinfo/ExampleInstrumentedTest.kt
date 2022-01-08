@@ -32,18 +32,7 @@ class ExampleInstrumentedTest {
                 "Spider Man",
                 "2002",
                 "2002-02-02",
-                "160 min",
-                "action, science",
-                "Carinha01",
-                "Carinha02",
-                "actor1, actor2, actor3",
-                "Isso é um teste",
-                "English",
-                "States United",
-                "Sei lá",
-                "http:minhaimagem.com.br",
-                "movie",
-                "250000$"
+                "160 min"
             )
 
             var rowId = dao.save(movieUnderTest)

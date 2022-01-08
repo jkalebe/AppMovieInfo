@@ -12,7 +12,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <include
         android:id="@+id/vwLoading"
@@ -23,6 +23,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/recyclerView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_searchview"
+        android:queryHint="Pesquise aqui"
+        android:searchIcon="@drawable/ic_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

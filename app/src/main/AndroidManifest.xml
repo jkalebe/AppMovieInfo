@@ -16,6 +16,7 @@
         <activity
             android:name=".ui.MovieDetailActivity"
             android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:parentActivityName=".ui.MainActivity"
             android:launchMode="singleTop"/>
         <activity

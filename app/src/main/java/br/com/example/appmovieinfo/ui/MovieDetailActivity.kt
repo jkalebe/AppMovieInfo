@@ -52,16 +52,16 @@ class MovieDetailActivity : AppCompatActivity() {
                         txtType.text = state.movie.Type
                         txtYear.text = state.movie.Year
                         txtDescription.text = state.movie.Plot
-                        txtRelease.text = state.movie.Released
+//                        txtRelease.text = state.movie.Released
                         txtRunTime.text = state.movie.Runtime
                         txtGenre.text = state.movie.Genre
                         txtDirector.text = state.movie.Director
-                        txtWriter.text = state.movie.Writer
+//                        txtWriter.text = state.movie.Writer
                         txtActors.text = state.movie.Actors
                         txtLanguage.text = state.movie.Language
                         txtCountry.text = state.movie.Country
-                        txtAwards.text = state.movie.Awards
-                        txtBoxOffice.text = state.movie.BoxOffice
+//                        txtAwards.text = state.movie.Awards
+//                        txtBoxOffice.text = state.movie.BoxOffice
                     }
                     is MovieDetailViewModel.State.Error ->{
                         vwLoading.visibility = View.GONE

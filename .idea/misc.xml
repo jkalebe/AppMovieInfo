@@ -6,12 +6,13 @@
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2203125" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/drawable/background_searchview.xml" value="0.2203125" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/drawable/gradient_bg.xml" value="0.2203125" />
+        <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/drawable/ic_add.xml" value="0.2203125" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2203125" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/drawable/ic_search.xml" value="0.2203125" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/drawable/loading_background.xml" value="0.2203125" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/drawable/progress_bg.xml" value="0.2203125" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/layout/activity_main.xml" value="0.19010416666666666" />
-        <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/layout/activity_movie_detail.xml" value="0.25" />
+        <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/layout/activity_movie_detail.xml" value="0.5" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/layout/fragment_movie_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/layout/item_movie.xml" value="0.33" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/AppMovieInfo2/app/src/main/res/layout/layout_loading.xml" value="0.2" />

@@ -42,6 +42,7 @@ class MovieFavoritesFragment : Fragment(){
             vwLoading.visibility = View.GONE
             recyclerView.adapter = MovieListAdapter(items, this::openBookDetail)
         })
+        searchView.visibility = View.GONE
     }
 
     private fun openBookDetail(movie: Movie){

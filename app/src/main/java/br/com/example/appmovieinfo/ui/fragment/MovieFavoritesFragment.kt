@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.example.appmovieinfo.R
 import br.com.example.appmovieinfo.model.Movie
@@ -36,8 +37,13 @@ class MovieFavoritesFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    
+        val layoutManage = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = layoutManage
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(requireContext(), layoutManage.orientation)
+        )
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.favoritesMovies.observe(viewLifecycleOwner, Observer { items ->
             vwLoading.visibility = View.GONE
             recyclerView.adapter = MovieListAdapter(items, this::openBookDetail)

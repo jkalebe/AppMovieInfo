@@ -1,9 +1,7 @@
 package br.com.example.appmovieinfo
 
-import br.com.example.appmovieinfo.model.MovieHttp
+import br.com.example.appmovieinfo.modelimdb.MovieIMDBHttp
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -13,15 +11,15 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun movieMovieApiTest() {
-        val searchMovie = MovieHttp.searchMovie("iron man")
-        searchMovie?.Search?.forEach { movie ->
+        val searchMovie = MovieIMDBHttp.searchMovieIMDB("iron man")
+        searchMovie?.results?.forEach { movie ->
             println(movie)
         }
     }
 
     @Test
     fun movieDetail(){
-        val movieDetail = MovieHttp.movieDetail("tt1258972")
+        val movieDetail = MovieIMDBHttp.movieDetailIMDB("tt1258972")
         println(movieDetail)
     }
 }

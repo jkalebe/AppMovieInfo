@@ -1,7 +1,7 @@
 # AppMovieInfo
 App Movie Info usando arquitetura MVVM, banco de dados Room, Picasso para load de imagens e Okhttp3 para criação de API REST
 <br>
-<img src="https://res.cloudinary.com/nenhum/image/upload/v1648475585/AppMovieInfo__lkipm9.gif" align="center" width="100%"/>
+<img src="https://res.cloudinary.com/nenhum/image/upload/v1648476804/AppMovieInfo_sibw8w.png" align="center" width="100%"/>
 <br>
 ## Tech stack & Open-source libraries
 - 100% [Kotlin](https://kotlinlang.org/)

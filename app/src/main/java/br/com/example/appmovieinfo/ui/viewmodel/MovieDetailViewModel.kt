@@ -17,6 +17,7 @@ import java.lang.Exception
 class MovieDetailViewModel (
     private val repository: MovieRepository
     ): ViewModel(){
+    private val repositoryApi = br.com.example.appmovieinfo.network.MovieRepository()
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> = _isFavorite
 
@@ -53,9 +54,7 @@ class MovieDetailViewModel (
 
         viewModelScope.launch {
             _state.value = State.Loading
-            val movie = withContext(Dispatchers.IO){
-                MovieHttp.movieDetail(id)
-            }
+            val movie = repositoryApi.getDetailMovie(id)
             if (movie == null){
                 _state.value = State.Error(Exception("Error loading movie"), false)
             }else {

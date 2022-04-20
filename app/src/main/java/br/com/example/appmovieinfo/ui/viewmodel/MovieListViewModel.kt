@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.example.appmovieinfo.model.Movie
 import br.com.example.appmovieinfo.model.MovieHttp
+import br.com.example.appmovieinfo.network.MovieRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class MovieListViewModel: ViewModel(){
+
+    private val repository = MovieRepository()
 
     private val _state = MutableLiveData<State>()
     val state: LiveData<State>
@@ -20,16 +23,15 @@ class MovieListViewModel: ViewModel(){
     fun loadMovies(){
         if(_state.value != null) return
 
-        search("Spider Man")
+        search("iron")
 
     }
 
     fun search(query: String) {
         viewModelScope.launch {
             _state.value = State.Loading
-            val result = withContext(Dispatchers.IO){
-                MovieHttp.searchMovie(query)
-            }
+            val result = repository.getAllMovies(query)
+
             if (result?.Search == null){
                 _state.value = State.Error(Exception("Error loading movies"), false)
             }else {

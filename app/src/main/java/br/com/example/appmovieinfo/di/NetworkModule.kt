@@ -1,15 +1,24 @@
-package br.com.example.appmovieinfo.network
+package br.com.example.appmovieinfo.di
 
+import br.com.example.appmovieinfo.model.MovieHttp
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
 
-object RetrofitHelper {
-    private const val KEY = "2ff0da89"
-
-    fun getRetrofit(): Retrofit {
+    @Provides
+    @Singleton
+    fun providerRetrofit(): MovieHttp {
 
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -23,5 +32,6 @@ object RetrofitHelper {
             .client(client_logging)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(MovieHttp::class.java)
     }
 }

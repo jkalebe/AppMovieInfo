@@ -6,9 +6,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MovieRepository(context: Context) {
-    private val dao: MovieDao = AppDatabase.getDatabase(context).getMovieDao()
+class MovieRepository @Inject constructor(private val dao: MovieDao) {
 
     suspend fun save(movie: Movie){
         dao.save(MovieDBMovieMapper.movieToMovieDB(movie))

@@ -5,32 +5,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import br.com.example.appmovieinfo.R
+import br.com.example.appmovieinfo.databinding.ActivityMovieDetailBinding
 import br.com.example.appmovieinfo.model.Movie
-import br.com.example.appmovieinfo.repository.MovieRepository
 import br.com.example.appmovieinfo.ui.viewmodel.MovieDetailViewModel
-import br.com.example.appmovieinfo.ui.viewmodel.MovieVmFactory
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_movie_detail.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MovieDetailActivity : AppCompatActivity() {
 
-    private val viewModel: MovieDetailViewModel by lazy {
-        ViewModelProvider(
-            this,
-            MovieVmFactory(
-                MovieRepository(this)
-            )
-        ).get(MovieDetailViewModel::class.java)
-    }
+    private lateinit var binding:ActivityMovieDetailBinding
+    private val viewModel: MovieDetailViewModel by viewModels<MovieDetailViewModel>()
+//    lazy {
+//        ViewModelProvider(
+//            this,
+//            MovieVmFactory(
+//                MovieRepository(this))
+//        ).get(MovieDetailViewModel::class.java)
+//    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movie_detail)
+        binding = ActivityMovieDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val movie : Movie? = intent.getParcelableExtra(EXTRA_MOVIE)
 
@@ -38,33 +40,33 @@ class MovieDetailActivity : AppCompatActivity() {
             viewModel.state.observe(this, Observer { state ->
                 when(state){
                     is MovieDetailViewModel.State.Loading ->
-                        vwLoading.visibility = View.VISIBLE
+                        binding.vwLoading.root.visibility = View.VISIBLE
                     is MovieDetailViewModel.State.Loaded ->{
-                        vwLoading.visibility = View.GONE
-                        detail.visibility = View.VISIBLE
+                        binding.vwLoading.root.visibility = View.GONE
+                        binding.detail.visibility = View.VISIBLE
                         Picasso.get().load(state.movie.Poster).into(
-                            imgCover
+                            binding.imgCover
                         )
                         Picasso.get().load(state.movie.Poster).into(
-                            imgCoverSmall
+                            binding.imgCoverSmall
                         )
-                        txtTitle.text = state.movie.Title
-                        txtType.text = state.movie.Type
-                        txtYear.text = state.movie.Year
-                        txtDescription.text = state.movie.Plot
+                        binding.txtTitle.text = state.movie.Title
+                        binding.txtType.text = state.movie.Type
+                        binding.txtYear.text = state.movie.Year
+                        binding.txtDescription.text = state.movie.Plot
 //                        txtRelease.text = state.movie.Released
-                        txtRunTime.text = state.movie.Runtime
-                        txtGenre.text = state.movie.Genre
-                        txtDirector.text = state.movie.Director
-//                        txtWriter.text = state.movie.Writer
-                        txtActors.text = state.movie.Actors
-                        txtLanguage.text = state.movie.Language
-                        txtCountry.text = state.movie.Country
-//                        txtAwards.text = state.movie.Awards
-//                        txtBoxOffice.text = state.movie.BoxOffice
+                        binding.txtRunTime.text = state.movie.Runtime
+                        binding.txtGenre.text = state.movie.Genre
+                        binding.txtDirector.text = state.movie.Director
+//                        binding.txtWriter.text = state.movie.Writer
+                        binding.txtActors.text = state.movie.Actors
+                        binding.txtLanguage.text = state.movie.Language
+                        binding.txtCountry.text = state.movie.Country
+//                        binding.txtAwards.text = state.movie.Awards
+//                        binding.txtBoxOffice.text = state.movie.BoxOffice
                     }
                     is MovieDetailViewModel.State.Error ->{
-                        vwLoading.visibility = View.GONE
+                        binding.vwLoading.root.visibility = View.GONE
                         if (!state.hasConsumed){
                             state.hasConsumed = true
                             Toast.makeText(this, R.string.error_loading, Toast.LENGTH_LONG).show()
@@ -78,13 +80,13 @@ class MovieDetailActivity : AppCompatActivity() {
                 this,
                 Observer { isFavorite ->
                     if(isFavorite){
-                        fabFavorite.setImageResource(R.drawable.ic_delete)
-                        fabFavorite.setOnClickListener {
+                        binding.fabFavorite.setImageResource(R.drawable.ic_delete)
+                        binding.fabFavorite.setOnClickListener {
                             viewModel.removeFromFavorites(movie)
                         }
                     } else{
-                        fabFavorite.setImageResource(R.drawable.ic_add)
-                        fabFavorite.setOnClickListener {
+                        binding.fabFavorite.setImageResource(R.drawable.ic_add)
+                        binding.fabFavorite.setOnClickListener {
                             viewModel.saveToFavorites(movie)
                         }
                     }

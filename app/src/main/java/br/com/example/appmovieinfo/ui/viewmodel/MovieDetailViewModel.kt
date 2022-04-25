@@ -5,19 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.example.appmovieinfo.model.Movie
-import br.com.example.appmovieinfo.model.MovieHttp
 import br.com.example.appmovieinfo.model.MovieInfo
-import br.com.example.appmovieinfo.repository.MovieDB
+import br.com.example.appmovieinfo.network.MovieService
 import br.com.example.appmovieinfo.repository.MovieRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
+import javax.inject.Inject
 
-class MovieDetailViewModel (
-    private val repository: MovieRepository
-    ): ViewModel(){
-    private val repositoryApi = br.com.example.appmovieinfo.network.MovieRepository()
+@HiltViewModel
+class MovieDetailViewModel @Inject constructor(
+    private val repository: MovieRepository,
+    private val repositoryApi: MovieService
+) : ViewModel() {
+
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> = _isFavorite
 
@@ -25,47 +27,48 @@ class MovieDetailViewModel (
     val state: LiveData<State>
         get() = _state
 
-    fun onCreate(movie: Movie){
+    fun onCreate(movie: Movie) {
         viewModelScope.launch {
             _isFavorite.value = repository.isFavorite(movie.imdbID)
         }
     }
 
-    fun saveToFavorites(movie: Movie){
+    fun saveToFavorites(movie: Movie) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 repository.save(movie)
             }
             _isFavorite.value = repository.isFavorite(movie.imdbID)
         }
     }
 
-    fun removeFromFavorites(movie: Movie){
+    fun removeFromFavorites(movie: Movie) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 repository.delete(movie)
             }
             _isFavorite.value = repository.isFavorite(movie.imdbID)
         }
     }
 
-    fun loadMovieInfo(id:String){
-        if(_state.value != null) return
-
+    fun loadMovieInfo(id: String) {
+        if (_state.value != null) return
         viewModelScope.launch {
             _state.value = State.Loading
-            val movie = repositoryApi.getDetailMovie(id)
-            if (movie == null){
-                _state.value = State.Error(Exception("Error loading movie"), false)
-            }else {
-                _state.value = State.Loaded(movie)
+            repositoryApi.getMovieByID(id).let { movie ->
+                if (movie == null) {
+                    _state.value = State.Error(Exception("Error loading movie"), false)
+                } else {
+                    _state.value = State.Loaded(movie)
+                }
             }
         }
     }
-    sealed class State{
-        object Loading: State()
-        data class Loaded(val movie: MovieInfo): State()
-        data class Error(val e: Throwable, var hasConsumed: Boolean): State()
+
+    sealed class State {
+        object Loading : State()
+        data class Loaded(val movie: MovieInfo) : State()
+        data class Error(val e: Throwable, var hasConsumed: Boolean) : State()
     }
 
-    }
+}

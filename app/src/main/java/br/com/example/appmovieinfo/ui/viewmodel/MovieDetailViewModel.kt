@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.example.appmovieinfo.model.Movie
+import br.com.example.appmovieinfo.model.MovieFullCast
 import br.com.example.appmovieinfo.model.MovieInfo
 import br.com.example.appmovieinfo.network.MovieService
+import br.com.example.appmovieinfo.network.MovieServiceFullCast
 import br.com.example.appmovieinfo.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
     private val repository: MovieRepository,
-    private val repositoryApi: MovieService
+    private val repositoryApi: MovieService,
+    private val repositoryApiFull: MovieServiceFullCast
 ) : ViewModel() {
 
     private val _isFavorite = MutableLiveData<Boolean>()
@@ -55,7 +58,7 @@ class MovieDetailViewModel @Inject constructor(
         if (_state.value != null) return
         viewModelScope.launch {
             _state.value = State.Loading
-            repositoryApi.getMovieByID(id).let { movie ->
+            repositoryApiFull.getMovieFullCast(id).let { movie ->
                 if (movie == null) {
                     _state.value = State.Error(Exception("Error loading movie"), false)
                 } else {
@@ -67,7 +70,7 @@ class MovieDetailViewModel @Inject constructor(
 
     sealed class State {
         object Loading : State()
-        data class Loaded(val movie: MovieInfo) : State()
+        data class Loaded(val movie: MovieFullCast) : State()
         data class Error(val e: Throwable, var hasConsumed: Boolean) : State()
     }
 

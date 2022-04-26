@@ -20,13 +20,6 @@ class MovieDetailActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityMovieDetailBinding
     private val viewModel: MovieDetailViewModel by viewModels<MovieDetailViewModel>()
-//    lazy {
-//        ViewModelProvider(
-//            this,
-//            MovieVmFactory(
-//                MovieRepository(this))
-//        ).get(MovieDetailViewModel::class.java)
-//    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,31 +30,31 @@ class MovieDetailActivity : AppCompatActivity() {
         val movie : Movie? = intent.getParcelableExtra(EXTRA_MOVIE)
 
         if (movie != null){
-            viewModel.state.observe(this, Observer { state ->
+            viewModel.state.observe(this,  { state ->
                 when(state){
                     is MovieDetailViewModel.State.Loading ->
                         binding.vwLoading.root.visibility = View.VISIBLE
                     is MovieDetailViewModel.State.Loaded ->{
                         binding.vwLoading.root.visibility = View.GONE
                         binding.detail.visibility = View.VISIBLE
-                        Picasso.get().load(state.movie.Poster).into(
+                        Picasso.get().load(state.movie.posters.backdrops[1].link).into(
                             binding.imgCover
                         )
-                        Picasso.get().load(state.movie.Poster).into(
+                        Picasso.get().load(state.movie.image).into(
                             binding.imgCoverSmall
                         )
-                        binding.txtTitle.text = state.movie.Title
-                        binding.txtType.text = state.movie.Type
-                        binding.txtYear.text = state.movie.Year
-                        binding.txtDescription.text = state.movie.Plot
+                        binding.txtTitle.text = state.movie.title
+                        binding.txtType.text = state.movie.type
+                        binding.txtYear.text = state.movie.year
+                        binding.txtDescription.text = state.movie.plot
 //                        txtRelease.text = state.movie.Released
-                        binding.txtRunTime.text = state.movie.Runtime
-                        binding.txtGenre.text = state.movie.Genre
-                        binding.txtDirector.text = state.movie.Director
+                        binding.txtRunTime.text = state.movie.runtimeMins
+                        binding.txtGenre.text = state.movie.genres
+                        binding.txtDirector.text = state.movie.directors
 //                        binding.txtWriter.text = state.movie.Writer
-                        binding.txtActors.text = state.movie.Actors
-                        binding.txtLanguage.text = state.movie.Language
-                        binding.txtCountry.text = state.movie.Country
+                        binding.txtActors.text = state.movie.actorList[0].name
+                        binding.txtLanguage.text = state.movie.languages
+                        binding.txtCountry.text = state.movie.countries
 //                        binding.txtAwards.text = state.movie.Awards
 //                        binding.txtBoxOffice.text = state.movie.BoxOffice
                     }

@@ -19,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
     private val repository: MovieRepository,
-    private val repositoryApi: MovieService,
     private val repositoryApiFull: MovieServiceFullCast
 ) : ViewModel() {
 

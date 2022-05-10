@@ -1,6 +1,5 @@
 package br.com.example.appmovieinfo.repository
 
-import android.content.Context
 import br.com.example.appmovieinfo.model.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

@@ -3,15 +3,8 @@ package br.com.example.appmovieinfo.model
 data class MovieFullCast(
     val actorList: List<Actor>,
     val awards: String,
-    val boxOffice: BoxOffice,
-    val companies: String,
-    val companyList: List<Company>,
-    val contentRating: String,
     val countries: String,
-    val countryList: List<Country>,
-    val directorList: List<Director>,
     val directors: String,
-    val errorMessage: Any,
     val fullCast: FullCast,
     val fullTitle: String,
     val genreList: List<Genre>,
@@ -21,11 +14,7 @@ data class MovieFullCast(
     val imDbRatingVotes: String,
     val image: String,
     val images: Images,
-    val keywordList: List<String>,
-    val keywords: String,
-    val languageList: List<Language>,
     val languages: String,
-    val metacriticRating: String,
     val originalTitle: String,
     val plot: String,
     val plotLocal: String,
@@ -41,8 +30,8 @@ data class MovieFullCast(
     val tagline: String,
     val title: String,
     val trailer: Trailer,
-    val tvEpisodeInfo: Any,
-    val tvSeriesInfo: Any,
+    val tvEpisodeInfo: String?,
+    val tvSeriesInfo: String?,
     val type: String,
     val wikipedia: Wikipedia,
     val writerList: List<Writer>,
@@ -57,12 +46,6 @@ data class Actor(
     val name: String
 )
 
-data class BoxOffice(
-    val budget: String,
-    val cumulativeWorldwideGross: String,
-    val grossUSA: String,
-    val openingWeekendUSA: String
-)
 
 data class Company(
     val id: String,
@@ -82,7 +65,7 @@ data class Director(
 data class FullCast(
     val actors: List<ActorX>,
     val directors: Directors,
-    val errorMessage: String,
+    val errorMessage: String?,
     val fullTitle: String,
     val imDbId: String,
     val others: List<Other>,
@@ -158,7 +141,7 @@ data class Trailer(
     val thumbnailUrl: String,
     val title: String,
     val type: String,
-    val uploadDate: Any,
+    val uploadDate: String?,
     val videoDescription: String,
     val videoId: String,
     val videoTitle: String,

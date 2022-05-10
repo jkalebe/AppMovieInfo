@@ -1,6 +1,9 @@
 package br.com.example.appmovieinfo.ui
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import br.com.example.appmovieinfo.R
 import br.com.example.appmovieinfo.databinding.ActivityMainBinding
@@ -17,6 +20,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        window.apply {
+            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
         binding.viewPager.adapter = MoviePagerAdapter(this)
         TabLayoutMediator(binding.tabLayout, binding.viewPager){tab, position->
             tab.setText(

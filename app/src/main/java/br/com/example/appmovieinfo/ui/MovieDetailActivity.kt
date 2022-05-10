@@ -7,61 +7,70 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import br.com.example.appmovieinfo.R
 import br.com.example.appmovieinfo.databinding.ActivityMovieDetailBinding
 import br.com.example.appmovieinfo.model.Movie
+import br.com.example.appmovieinfo.ui.adapter.ActorListAdapter
 import br.com.example.appmovieinfo.ui.viewmodel.MovieDetailViewModel
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import android.view.WindowManager
+
+import android.os.Build
+import android.view.Window
+
 
 @AndroidEntryPoint
 class MovieDetailActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityMovieDetailBinding
+    private lateinit var binding: ActivityMovieDetailBinding
     private val viewModel: MovieDetailViewModel by viewModels<MovieDetailViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppImageView)
+        // In Activity's onCreate() for instance
+        // In Activity's onCreate() for instance
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val w: Window = window
+            w.setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            )
+        }
+
         binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val movie : Movie? = intent.getParcelableExtra(EXTRA_MOVIE)
 
-        if (movie != null){
-            viewModel.state.observe(this,  { state ->
-                when(state){
-                    is MovieDetailViewModel.State.Loading ->
+        val movie: Movie? = intent.getParcelableExtra(EXTRA_MOVIE)
+
+        if (movie != null) {
+            viewModel.state.observe(this, { state ->
+                when (state) {
+                    is MovieDetailViewModel.State.Loading -> {
                         binding.vwLoading.root.visibility = View.VISIBLE
-                    is MovieDetailViewModel.State.Loaded ->{
+                        binding.detail.visibility = View.GONE
+                    }
+
+                    is MovieDetailViewModel.State.Loaded -> {
                         binding.vwLoading.root.visibility = View.GONE
                         binding.detail.visibility = View.VISIBLE
-                        Picasso.get().load(state.movie.posters.backdrops[1].link).into(
-                            binding.imgCover
-                        )
-                        Picasso.get().load(state.movie.image).into(
-                            binding.imgCoverSmall
-                        )
-                        binding.txtTitle.text = state.movie.title
-                        binding.txtType.text = state.movie.type
-                        binding.txtYear.text = state.movie.year
-                        binding.txtDescription.text = state.movie.plot
-//                        txtRelease.text = state.movie.Released
-                        binding.txtRunTime.text = state.movie.runtimeMins
-                        binding.txtGenre.text = state.movie.genres
-                        binding.txtDirector.text = state.movie.directors
-//                        binding.txtWriter.text = state.movie.Writer
-                        binding.txtActors.text = state.movie.actorList[0].name
-                        binding.txtLanguage.text = state.movie.languages
-                        binding.txtCountry.text = state.movie.countries
-//                        binding.txtAwards.text = state.movie.Awards
-//                        binding.txtBoxOffice.text = state.movie.BoxOffice
+                        binding.movie = state.movie
+
+                        binding.rvActors.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+                        binding.rvActors.adapter = ActorListAdapter(state.movie.actorList)
+
+
                     }
-                    is MovieDetailViewModel.State.Error ->{
+                    is MovieDetailViewModel.State.Error -> {
                         binding.vwLoading.root.visibility = View.GONE
-                        if (!state.hasConsumed){
+                        binding.detail.visibility = View.GONE
+                        if (!state.hasConsumed) {
                             state.hasConsumed = true
+
                             Toast.makeText(this, R.string.error_loading, Toast.LENGTH_LONG).show()
                         }
                     }
@@ -69,34 +78,33 @@ class MovieDetailActivity : AppCompatActivity() {
             })
             viewModel.loadMovieInfo(movie.imdbID)
 
-            viewModel.isFavorite.observe(
-                this,
-                Observer { isFavorite ->
-                    if(isFavorite){
-                        binding.fabFavorite.setImageResource(R.drawable.ic_delete)
-                        binding.fabFavorite.setOnClickListener {
-                            viewModel.removeFromFavorites(movie)
-                        }
-                    } else{
-                        binding.fabFavorite.setImageResource(R.drawable.ic_add)
-                        binding.fabFavorite.setOnClickListener {
-                            viewModel.saveToFavorites(movie)
-                        }
-                    }
-                }
-            )
-            viewModel.onCreate(movie)
-        } else{
+//            viewModel.isFavorite.observe(
+//                this,
+//                Observer { isFavorite ->
+//                    if(isFavorite){
+//                        binding.fabFavorite.setImageResource(R.drawable.ic_delete)
+//                        binding.fabFavorite.setOnClickListener {
+//                            viewModel.removeFromFavorites(movie)
+//                        }
+//                    } else{
+//                        binding.fabFavorite.setImageResource(R.drawable.ic_add)
+//                        binding.fabFavorite.setOnClickListener {
+//                            viewModel.saveToFavorites(movie)
+//                        }
+//                    }
+//                }
+//            )
+//            viewModel.onCreate(movie)
+        } else {
             finish()
         }
-        }
-
+    }
 
 
     companion object {
-        private const val EXTRA_MOVIE= "movie"
+        private const val EXTRA_MOVIE = "movie"
 
-        fun open(context: Context, movie: Movie){
+        fun open(context: Context, movie: Movie) {
             val detailIntent = Intent(context, MovieDetailActivity::class.java)
             detailIntent.putExtra(EXTRA_MOVIE, movie)
             context.startActivity(detailIntent)

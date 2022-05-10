@@ -5,6 +5,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieFullCastHttp {
-    @GET("{id}/FullActor,FullCast,Posters,Images,Trailer,Ratings,Wikipedia,")
+    @GET("{id}/FullActor,FullCast,Posters,Images,Trailer,Ratings,")
     suspend fun getFullCastMovie(@Path("id")id: String):MovieFullCast
 }

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.example.appmovieinfo.R
 import br.com.example.appmovieinfo.databinding.FragmentMovieListBinding
 import br.com.example.appmovieinfo.model.Movie
-import br.com.example.appmovieinfo.ui.MovieDetailActivity
 import br.com.example.appmovieinfo.ui.adapter.MovieListAdapter
 import br.com.example.appmovieinfo.ui.viewmodel.MovieListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,23 +36,25 @@ class MovieListFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is MovieListViewModel.State.Loading ->
                     binding.vwLoading.root.visibility = View.VISIBLE
-                is MovieListViewModel.State.Loaded ->{
+                is MovieListViewModel.State.Loaded -> {
                     binding.vwLoading.root.visibility = View.GONE
-                    binding.recyclerView.adapter = MovieListAdapter(state.items, this::openBookDetail)
+                    binding.recyclerView.adapter =
+                        MovieListAdapter(state.items, this@MovieListFragment::openBookDetail)
                 }
-                is MovieListViewModel.State.Error ->{
+                is MovieListViewModel.State.Error -> {
                     binding.vwLoading.root.visibility = View.GONE
-                    if (!state.hasConsumed){
+                    if (!state.hasConsumed) {
                         state.hasConsumed = true
-                        Toast.makeText(requireContext(), R.string.error_loading, Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), R.string.error_loading, Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
             }
-        })
+        }
         viewModel.loadMovies()
 
         binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
@@ -76,7 +77,12 @@ class MovieListFragment : Fragment(){
         })
     }
 
+
     private fun openBookDetail(movie: Movie){
-        MovieDetailActivity.open(requireContext(), movie)
+        activity?.let {
+            MovieDetailBottomSheet.newInstance(movie).open(
+                it.supportFragmentManager
+            )
+        }
     }
 }

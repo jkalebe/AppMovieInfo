@@ -7,4 +7,5 @@
     <string name="error_loading">Erro ao carregar a lista de filmes</string>
     <string name="tab_favorites">Favoritos</string>
     <string name="tab_movies">Movies</string>
+    <string name="movie_description">Movie Description</string>
 </resources>

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.example.appmovieinfo.databinding.FragmentMovieListBinding
 import br.com.example.appmovieinfo.model.Movie
-import br.com.example.appmovieinfo.ui.MovieDetailActivity
 import br.com.example.appmovieinfo.ui.adapter.MovieListAdapter
 import br.com.example.appmovieinfo.ui.viewmodel.MovieFavoritesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,14 +39,14 @@ class MovieFavoritesFragment : Fragment() {
             DividerItemDecoration(requireContext(), layoutManage.orientation)
         )
 
-        viewModel.favoritesMovies.observe(this, { items ->
+        viewModel.favoritesMovies.observe(this) { items ->
             binding.vwLoading.root.visibility = View.GONE
             binding.recyclerView.adapter = MovieListAdapter(items, this::openBookDetail)
-        })
+        }
         binding.searchView.visibility = View.GONE
     }
 
     private fun openBookDetail(movie: Movie) {
-        MovieDetailActivity.open(requireContext(), movie)
+        MovieDetailBottomSheet.newInstance(movie)
     }
 }

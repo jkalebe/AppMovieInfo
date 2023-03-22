@@ -1,16 +1,14 @@
 package br.com.example.appmovieinfo.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.example.appmovieinfo.R
+import br.com.example.appmovieinfo.databinding.ItemMovieBinding
 import br.com.example.appmovieinfo.model.Movie
-import br.com.example.appmovieinfo.model.MovieInfo
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MovieListAdapter(
     private val items: List<Movie>,
@@ -18,8 +16,8 @@ class MovieListAdapter(
     ): RecyclerView.Adapter<MovieListAdapter.MovieHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
-        val layout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_movie, parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val layout = ItemMovieBinding.inflate(inflater, parent, false)
         return MovieHolder(layout)
     }
 
@@ -43,10 +41,10 @@ class MovieListAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    class MovieHolder(rootView: View):RecyclerView.ViewHolder(rootView){
-        val imgCover: ImageView = rootView.imgCover
-        val txtTitle: TextView = rootView.txtTitle
-        val txtType: TextView = rootView.txtType
-        val txtYear: TextView = rootView.txtYear
+    class MovieHolder(binding: ItemMovieBinding):RecyclerView.ViewHolder(binding.root){
+        val imgCover: ImageView = binding.imgCover
+        val txtTitle: TextView = binding.txtTitle
+        val txtType: TextView = binding.txtType
+        val txtYear: TextView = binding.txtYear
     }
 }

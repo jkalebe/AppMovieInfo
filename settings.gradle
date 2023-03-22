@@ -8,3 +8,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "App Movie Info"
 include ':app'
+include ':components:dialog'
+include ':base-architecture:core'

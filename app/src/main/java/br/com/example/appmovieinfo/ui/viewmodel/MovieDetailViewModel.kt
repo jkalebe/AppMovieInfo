@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.example.appmovieinfo.model.Movie
 import br.com.example.appmovieinfo.model.MovieFullCast
-import br.com.example.appmovieinfo.model.MovieInfo
 import br.com.example.appmovieinfo.network.MovieService
 import br.com.example.appmovieinfo.network.MovieServiceFullCast
 import br.com.example.appmovieinfo.repository.MovieRepository
@@ -59,11 +58,7 @@ class MovieDetailViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = State.Loading
             repositoryApiFull.getMovieFullCast(id).let { movie ->
-                if (movie == null) {
-                    _state.value = State.Error(Exception("Error loading movie"), false)
-                } else {
-                    _state.value = State.Loaded(movie)
-                }
+                _state.value = State.Loaded(movie)
             }
         }
     }
